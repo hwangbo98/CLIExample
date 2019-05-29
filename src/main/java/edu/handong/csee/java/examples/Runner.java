@@ -6,12 +6,14 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import java.io.File;
 
 public class Runner {
 	
 	String path;
 	boolean verbose;
 	boolean help;
+	String fullpath;
 
 	public static void main(String[] args) {
 
@@ -29,15 +31,18 @@ public class Runner {
 				return;
 			}
 			
+			if(path!=null) {
+				findFile3(args);
+			}
+			
 			// path is required (necessary) data so no need to have a branch.
 			System.out.println("You provided \"" + path + "\" as the value of the option p");
 			
 			// TODO show the number of files in the path
 			
 			if(verbose) {
-				
 				// TODO list all files in the path
-				
+				findFile2(args);
 				System.out.println("Your program is terminated. (This message is shown because you turned on -v option!");
 			}
 		}
@@ -86,7 +91,14 @@ public class Runner {
 		options.addOption(Option.builder("h").longOpt("help")
 		        .desc("Help")
 		        .build());
-
+		
+		options.addOption(Option.builder("f").longOpt("fullpath")
+				.desc("Display full path message")
+				.hasArg()
+				.argName("full path to display")
+				.required()
+				.build());
+		
 		return options;
 	}
 	
@@ -96,6 +108,46 @@ public class Runner {
 		String header = "CLI test program";
 		String footer ="\nPlease report issues at https://github.com/lifove/CLIExample/issues";
 		formatter.printHelp("CLIExample", header, options, footer, true);
+	}
+	
+	public void findFile(String name) {
+		File file = new File("filefolder\\test.txt");
+		int count;
+		if(file.exists()) {
+			try {
+				System.out.println("getpath: " + file.getAbsolutePath());
+			}catch(IOException e) {
+				System.err.println(e);
+			}
+		}
+	}
+	
+	public void findFile2(String name) {
+		File file = new File(".");
+		
+		if(file.exists()&&file.isDirectory()) {
+			
+			String[] fList =file.list();
+			
+			for(int i=0; i<fList.length; i++) {
+				System.out.println(fList[i]);
+			}
+		}
+		else {
+			System.out.println("해당 경로는 폴더가 아닙니다.");
+		}
+	}
+	public void findFile3(String[] args) {
+		File file = new File(".");
+		
+		if(file.exists()&&file.isDirectory()) {
+			
+			String[] fList =file.list();
+				System.out.println(fList.length);
+			}
+		else {
+			System.out.println("해당 경로는 폴더가 아닙니다.");
+		}
 	}
 
 }
