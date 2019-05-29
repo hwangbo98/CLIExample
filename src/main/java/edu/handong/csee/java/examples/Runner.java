@@ -32,17 +32,20 @@ public class Runner {
 			}
 			
 			if(path!=null) {
-				findFile3(args);
+				findFile3();
+			}
+			if(fullpath!=null) {
+				findFile();
 			}
 			
 			// path is required (necessary) data so no need to have a branch.
-			System.out.println("You provided \"" + path + "\" as the value of the option p");
+			
 			
 			// TODO show the number of files in the path
 			
 			if(verbose) {
 				// TODO list all files in the path
-				findFile2(args);
+				findFile2();
 				System.out.println("Your program is terminated. (This message is shown because you turned on -v option!");
 			}
 		}
@@ -58,6 +61,7 @@ public class Runner {
 			path = cmd.getOptionValue("p");
 			verbose = cmd.hasOption("v");
 			help = cmd.hasOption("h");
+			fullpath = cmd.getOptionValue("f");
 
 		} catch (Exception e) {
 			printHelp(options);
@@ -110,19 +114,17 @@ public class Runner {
 		formatter.printHelp("CLIExample", header, options, footer, true);
 	}
 	
-	public void findFile(String name) {
-		File file = new File("filefolder\\test.txt");
-		int count;
+	public void findFile() {
+		File file = new File("/Users/yeon/Downloads/test.txt");
 		if(file.exists()) {
-			try {
 				System.out.println("getpath: " + file.getAbsolutePath());
-			}catch(IOException e) {
-				System.err.println(e);
-			}
 		}
+		else 
+			System.out.println("nothing");
 	}
 	
-	public void findFile2(String name) {
+	
+	public void findFile2() {
 		File file = new File(".");
 		
 		if(file.exists()&&file.isDirectory()) {
@@ -137,8 +139,8 @@ public class Runner {
 			System.out.println("해당 경로는 폴더가 아닙니다.");
 		}
 	}
-	public void findFile3(String[] args) {
-		File file = new File(".");
+	public void findFile3() {
+		File file = new File("/Users/yeon/Downloads");
 		
 		if(file.exists()&&file.isDirectory()) {
 			
